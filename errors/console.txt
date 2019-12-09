@@ -1,0 +1,6 @@
+When starting (F5) the project:
+Note: /home/joe/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.12.11/android/src/main/java/io/flutter/plugins/firebase/cloudfirestore/CloudFirestorePlugin.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+_______________________________________________________
+Note: /home/joe/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.12.11/android/src/main/java/io/flutter/plugins/firebase/cloudfirestore/CloudFirestorePlugin.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
