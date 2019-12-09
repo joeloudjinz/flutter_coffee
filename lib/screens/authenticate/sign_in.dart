@@ -25,10 +25,9 @@ class _SignInState extends State<SignIn> {
           onPressed: () async {
             dynamic result = await _auth.signInAnonymously();
             if (result == null) {
-              print('damn, is null !!');
+              print('damn, something happedn !!');
             } else {
-              print('whooohoo, signed in');
-              print(result);
+              print('signed in, uid = ${result.uid}');
             }
           },
         ),
