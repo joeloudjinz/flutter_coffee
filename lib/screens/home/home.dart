@@ -1,5 +1,6 @@
 import 'package:brew_crew/models/brew.dart';
 import 'package:brew_crew/screens/home/brews-list.dart';
+import 'package:brew_crew/screens/home/settings-form.dart';
 import 'package:brew_crew/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:brew_crew/services/database.dart';
@@ -13,8 +14,9 @@ class Home extends StatelessWidget {
       showModalBottomSheet(
         context: context,
         builder: (context) => Container(
+          color: Colors.brown[200],
           padding: EdgeInsets.all(20.0),
-          child: Text('Bottom Sheet Widget'),
+          child: SettingsForm(),
         ),
       );
     }
