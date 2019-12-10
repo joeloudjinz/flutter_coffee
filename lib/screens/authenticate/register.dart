@@ -1,5 +1,6 @@
 import 'package:brew_crew/services/auth.dart';
 import 'package:brew_crew/shared/constants.dart';
+import 'package:brew_crew/shared/loading.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
@@ -18,33 +19,38 @@ class _RegisterState extends State<Register> {
   String password = '';
   String error = '';
 
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
-    var bar = AppBar(
-      backgroundColor: Colors.brown[400],
-      elevation: 0.0,
-      title: Text('Sign Up to Brew Crew'),
-      actions: <Widget>[
-        FlatButton.icon(
-          icon: Icon(
-            Icons.person,
-            color: Colors.white,
-          ),
-          label: Text(
-            'Sign In',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-          onPressed: () {
-            widget.toggleView();
-          },
-        )
-      ],
-    );
+    return loading ? Loading() : buildScaffold();
+  }
+
+  Scaffold buildScaffold() {
     return Scaffold(
       backgroundColor: Colors.brown[100],
-      appBar: bar,
+      appBar: AppBar(
+        backgroundColor: Colors.brown[400],
+        elevation: 0.0,
+        title: Text('Sign Up to Brew Crew'),
+        actions: <Widget>[
+          FlatButton.icon(
+            icon: Icon(
+              Icons.person,
+              color: Colors.white,
+            ),
+            label: Text(
+              'Sign In',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            onPressed: () {
+              widget.toggleView();
+            },
+          )
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -97,9 +103,11 @@ class _RegisterState extends State<Register> {
                   if (!_formKey.currentState.validate()) {
                     return;
                   }
+                  setState(() => loading = true);
                   var result = await _auth.register(email, password);
                   if (result == null) {
                     setState(() {
+                      loading = false;
                       error = 'Supply a valid email, please';
                     });
                   }
