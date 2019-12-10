@@ -1,5 +1,6 @@
 import 'package:brew_crew/services/auth.dart';
 import 'package:brew_crew/shared/constants.dart';
+import 'package:brew_crew/shared/loading.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -17,8 +18,15 @@ class _SignInState extends State<SignIn> {
   String email = '';
   String password = '';
   String error = '';
+
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
+    return loading ? Loading() : buildScaffold();
+  }
+
+  Scaffold buildScaffold() {
     return Scaffold(
       backgroundColor: Colors.brown[100],
       appBar: AppBar(
@@ -95,9 +103,11 @@ class _SignInState extends State<SignIn> {
                   if (!_formKey.currentState.validate()) {
                     return;
                   }
+                  setState(() => loading = true);
                   var result = await _auth.signIn(email, password);
                   if (result == null) {
                     setState(() {
+                      loading = false;
                       error = 'Could not sign in with these credentials';
                     });
                   }
