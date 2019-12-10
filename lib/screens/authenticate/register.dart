@@ -1,4 +1,5 @@
 import 'package:brew_crew/services/auth.dart';
+import 'package:brew_crew/shared/constants.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
@@ -16,7 +17,7 @@ class _RegisterState extends State<Register> {
   String email = '';
   String password = '';
   String error = '';
-  
+
   @override
   Widget build(BuildContext context) {
     var bar = AppBar(
@@ -61,6 +62,7 @@ class _RegisterState extends State<Register> {
                     email = value;
                   });
                 },
+                decoration: textInputDecoration.copyWith(hintText: 'Email'),
               ),
               SizedBox(
                 height: 20.0,
@@ -75,16 +77,20 @@ class _RegisterState extends State<Register> {
                     password = value;
                   });
                 },
+                decoration: textInputDecoration.copyWith(hintText: 'Password'),
               ),
               SizedBox(
                 height: 20.0,
               ),
               RaisedButton(
                 color: Colors.brown[700],
-                child: Text(
-                  'Sign Up',
-                  style: TextStyle(
-                    color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 onPressed: () async {
