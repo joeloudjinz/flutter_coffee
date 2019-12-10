@@ -11,8 +11,11 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
+
   String email = '';
   String password = '';
+  String error = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +37,7 @@ class _SignInState extends State<SignIn> {
               ),
             ),
             onPressed: () {
-                widget.toggleView();
+              widget.toggleView();
             },
           )
         ],
@@ -42,12 +45,15 @@ class _SignInState extends State<SignIn> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
+          key: _formKey,
           child: Column(
             children: <Widget>[
               SizedBox(
                 height: 20.0,
               ),
               TextFormField(
+                validator: (value) =>
+                    value.isEmpty ? 'Enter an email address' : null,
                 onChanged: (value) {
                   setState(() {
                     email = value;
@@ -58,6 +64,9 @@ class _SignInState extends State<SignIn> {
                 height: 20.0,
               ),
               TextFormField(
+                validator: (value) => value.length < 6
+                    ? 'Password should be more then 6 chars'
+                    : null,
                 obscureText: true,
                 onChanged: (value) {
                   setState(() {
@@ -76,7 +85,28 @@ class _SignInState extends State<SignIn> {
                     color: Colors.white,
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  if (!_formKey.currentState.validate()) {
+                    return;
+                  }
+                  var result = await _auth.signIn(email, password);
+                  if (result == null) {
+                    setState(() {
+                      error = 'Could not sign in with these credentials';
+                    });
+                  }
+                },
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              Text(
+                error,
+                style: TextStyle(
+                  color: Colors.red[400],
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
               )
             ],
           ),
