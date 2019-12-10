@@ -11,10 +11,10 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
-
+  final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
-
+  String error = '';
   @override
   Widget build(BuildContext context) {
     var bar = AppBar(
@@ -45,12 +45,15 @@ class _RegisterState extends State<Register> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
+          key: _formKey,
           child: Column(
             children: <Widget>[
               SizedBox(
                 height: 20.0,
               ),
               TextFormField(
+                validator: (value) =>
+                    value.isEmpty ? 'Enter an email address' : null,
                 onChanged: (value) {
                   setState(() {
                     email = value;
@@ -61,6 +64,9 @@ class _RegisterState extends State<Register> {
                 height: 20.0,
               ),
               TextFormField(
+                validator: (value) => value.length < 6
+                    ? 'Password should be more then 6 chars'
+                    : null,
                 obscureText: true,
                 onChanged: (value) {
                   setState(() {
@@ -79,7 +85,28 @@ class _RegisterState extends State<Register> {
                     color: Colors.white,
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  if (!_formKey.currentState.validate()) {
+                    return;
+                  }
+                  var result = await _auth.register(email, password);
+                  if (result == null) {
+                    setState(() {
+                      error = 'Supply a valid email, please';
+                    });
+                  }
+                },
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              Text(
+                error,
+                style: TextStyle(
+                  color: Colors.red[400],
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
               )
             ],
           ),
