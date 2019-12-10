@@ -34,9 +34,7 @@ class _SignInState extends State<SignIn> {
               ),
             ),
             onPressed: () {
-              setState(() {
                 widget.toggleView();
-              });
             },
           )
         ],
