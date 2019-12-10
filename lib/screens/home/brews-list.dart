@@ -1,3 +1,4 @@
+import 'package:brew_crew/screens/home/brew-tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:brew_crew/models/brew.dart';
@@ -12,6 +13,9 @@ class _BrewListState extends State<BrewList> {
   Widget build(BuildContext context) {
     final brews = Provider.of<List<Brew>>(context);
     print(brews);
-    return Container();
+    return ListView.builder(
+      itemCount: brews.length,
+      itemBuilder: (context, index) => BrewTile(brew: brews[index]),
+    );
   }
 }
