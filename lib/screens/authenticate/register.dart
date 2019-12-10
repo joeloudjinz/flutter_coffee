@@ -17,32 +17,31 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.brown[100],
-      appBar: AppBar(
-        backgroundColor: Colors.brown[400],
-        elevation: 0.0,
-        title: Text('Sign Up to Brew Crew'),
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(
-              Icons.person,
+    var bar = AppBar(
+      backgroundColor: Colors.brown[400],
+      elevation: 0.0,
+      title: Text('Sign Up to Brew Crew'),
+      actions: <Widget>[
+        FlatButton.icon(
+          icon: Icon(
+            Icons.person,
+            color: Colors.white,
+          ),
+          label: Text(
+            'Sign In',
+            style: TextStyle(
               color: Colors.white,
             ),
-            label: Text(
-              'Sign In',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-            onPressed: () {
-              setState(() {
-                widget.toggleView();
-              });
-            },
-          )
-        ],
-      ),
+          ),
+          onPressed: () {
+            widget.toggleView();
+          },
+        )
+      ],
+    );
+    return Scaffold(
+      backgroundColor: Colors.brown[100],
+      appBar: bar,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
