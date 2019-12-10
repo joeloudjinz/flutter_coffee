@@ -11,24 +11,23 @@ class SettingsForm extends StatefulWidget {
 }
 
 class _SettingsFormState extends State<SettingsForm> {
-  final _formkey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   final List<String> sugars = ['0', '1', '2', '3', '4'];
 
   String _currentName;
   String _currentSugar;
   int _currentStrength;
-  
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     return StreamBuilder<UserData>(
       stream: DatabaseService(uid: user.uid).userData,
       builder: (context, snapshot) {
-        print(user.uid); 
         if (snapshot.hasData) {
           UserData userData = snapshot.data;
           return Form(
-            key: _formkey,
+            key: _formKey,
             child: Column(
               children: <Widget>[
                 Text(
@@ -87,7 +86,16 @@ class _SettingsFormState extends State<SettingsForm> {
                       color: Colors.white,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (_formKey.currentState.validate()) {
+                      await DatabaseService(uid: user.uid).updateUserData(
+                        _currentSugar ?? userData.sugars,
+                        _currentName ?? userData.name,
+                        _currentStrength ?? userData.strength,
+                      );
+                      Navigator.pop(context);
+                    }
+                  },
                 ),
               ],
             ),
